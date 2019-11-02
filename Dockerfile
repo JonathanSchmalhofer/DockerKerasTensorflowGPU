@@ -1,8 +1,5 @@
 FROM nvidia/cuda:9.0-cudnn7-runtime-ubuntu16.04
 
-sudo apt update
-sudo apt install software-properties-common
-
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     build-essential \
