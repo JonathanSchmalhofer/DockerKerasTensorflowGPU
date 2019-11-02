@@ -1,0 +1,20 @@
+version: 2
+jobs:
+    build:
+        machine: true
+        steps:
+            - checkout
+            - run: |
+                docker info
+                if [[ -e ~/docker/image.tar ]]; then docker load --input ~/docker/image.tar; fi
+                docker build --rm=false -t jonathanschmalhofer/keras-tensorflow-gpu:latest .
+                mkdir -p ~/docker; docker save jonathanschmalhofer/keras-tensorflow-gpu:latest > ~/docker/image.tar
+            - run: |
+                mkdir /tmp/artifacts
+                ulimit -c unlimited
+                docker save jonathanschmalhofer/keras-tensorflow-gpu:latest > /tmp/artifacts/keras-tensorflow-gpu.docker.tar
+            - run: |
+                docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+                docker push jonathanschmalhofer/keras-tensorflow-gpu:latest
+            - store_artifacts:
+                path: /tmp/artifacts
