@@ -24,7 +24,7 @@ RUN bash tmp/Miniconda3-4.4.10-Linux-x86_64.sh -b
 ENV PATH $PATH:/root/miniconda3/bin/
 
 COPY environment-gpu.yml  ./environment-gpu.yml
-RUN conda env create -f=environment-gpu.yml --name carnd-term1 --debug -v -v
+RUN conda env create -f=environment-gpu.yml --name keras-tensorflow-gpu --debug -v -v
 
 # cleanup tarballs and downloaded package files
 RUN conda clean -tp -y
