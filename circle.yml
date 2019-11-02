@@ -10,6 +10,9 @@ jobs:
                 docker build --rm=false -t jonathanschmalhofer/keras-tensorflow-gpu:latest .
                 mkdir -p ~/docker; docker save jonathanschmalhofer/keras-tensorflow-gpu:latest > ~/docker/image.tar
             - run: |
+                docker run -d jonathanschmalhofer/keras-tensorflow-gpu:latest "conda list; cat > test_environment.py <<EOL;import tensorflow as tf;mnist = tf.keras.datasets.mnist;EOL;cat test_environment.py;python test_environment.py" > ./dockerrun.log 2>&1
+                cat ./dockerrun.log
+            - run: |
                 mkdir /tmp/artifacts
                 ulimit -c unlimited
                 docker save jonathanschmalhofer/keras-tensorflow-gpu:latest > /tmp/artifacts/keras-tensorflow-gpu.docker.tar
